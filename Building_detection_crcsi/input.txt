@@ -1,0 +1,28 @@
+% input (3-band or 4-band colour) image file name including path. The file format is geotiff and must contain geodata information itself
+sample_01.tif
+
+% input LIDAR file name including path. The data format is X Y Z in each line
+LIDAR_sample_01_adjusted.txt
+
+% input DEM file name including path. The file format is geotiff and must contain geodata information itself
+DTM_sample_01.tif
+
+% LIDAR point-to-point distance in x direction (in metre)
+0.2
+
+% LIDAR point-to-point distance in y direction (in metre)
+0.2
+
+% useEntropy flag: turn this flag on (1) if the scene has green coloured building roofs; 0 otherwise; default 0
+0
+
+% useAdjustment flag: turn this flag on (1) if you want to adjust the mask lines with the image lines; 0 otherwise; default 1
+1
+
+% useRefinement flag: turn this flag on (1) if you want to remove false buildings (trees); 0 otherwise; default 0
+% if the scene has other than green coloured trees, then turn this flag on to avoid detecting them
+0
+
+% useReduction flag: turn this on if the image and LIDAR data have large mis-alignment (registration error) with each other; 0 otherwise; default 1
+% When the flag is on, the initial building candidates are reduced by 15% before they are extended
+1

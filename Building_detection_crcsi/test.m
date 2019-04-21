@@ -1,0 +1,1 @@
+buildingDetection('input.txt','output.txt');
