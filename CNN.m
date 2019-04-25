@@ -3,9 +3,10 @@ training = false; % SET THIS TO "true" TO TRAIN THE NETWORK
 if ~training
     load('cnn_parameters.mat');
 end
-    
-%localFolder = 'C:\Users\Bazooka\Desktop\EECE5644_Machine_Learn_Pattern_Recogntn\project';
-localFolder = '/home/bazooka/Documents/EECE5644_Machine_Learn_Pattern_Recogntn/project';
+
+%%%%%%%%%%%%% CHANGE FOLDER CONTAINING THE PROJECT HERE %%%%%%%%%%%%
+localFolder = 'C:\Users\Bazooka\Desktop\EECE5644_Machine_Learn_Pattern_Recogntn\project';
+%localFolder = '/home/bazooka/Documents/EECE5644_Machine_Learn_Pattern_Recogntn/project';
 imageFolder = fullfile(localFolder, 'trainImagesSelect');
 resultsFolder = fullfile(localFolder, 'trainResultsSelect');
 imds = imageDatastore(imageFolder, 'LabelSource', 'foldernames', 'IncludeSubfolders',true);
@@ -17,22 +18,9 @@ if training
     pixelLabelID = [buildingRGB terrainRGB];
     pxds = pixelLabelDatastore(resultsFolder,classNames,pixelLabelID);
 
-    %{
-    C = readimage(pxds,3);
-    C(5,200)
-
-    I = readimage(imds,3);
-    I = histeq(I);
-    imshow(I);
-
-    B = labeloverlay(I,C);
-    figure
-    imshow(B)
-    %}
-
     I = read(imds);
 
-    numFilters = 8;
+    numFilters = 32;
     filterSize = 3;
     numClasses = 2;
     layers = [
@@ -50,17 +38,18 @@ if training
 
     opts = trainingOptions('sgdm', ...
         'InitialLearnRate',0.001, ...
-        'MaxEpochs',2, ...
-        'MiniBatchSize',8);
+        'MaxEpochs',10, ...
+        'MiniBatchSize',16, ...
+        'Plots','training-progress'); ...
 
     trainingData = pixelLabelImageDatastore(imds,pxds);
-
 
     tbl = countEachLabel(trainingData);
     totalNumberOfPixels = sum(tbl.PixelCount);
     frequency = tbl.PixelCount / totalNumberOfPixels;
     classWeights = 1./frequency;
     layers(end) = pixelClassificationLayer('Classes',tbl.Name,'ClassWeights',classWeights);
+    
     net = trainNetwork(trainingData,layers,opts);
 end
 
@@ -69,9 +58,3 @@ imshow(testImage);
 C = semanticseg(testImage,net);
 B = labeloverlay(testImage,C);
 imshow(B)
-
-
-% Images are 500x500
-
-% 20 images took an 1.5 hours for neariest neighbor
-% time; performance; error
