@@ -30,7 +30,7 @@ ANN = cell(N, N);
 % Data = zeros(5000, 5000, N);
 Data = zeros(500, 500, N);
 tic;
-pwd()
+
 %% ANN initialization step.
 disp('Step 1: ANN initialization step. ')
 for i = 1:N
@@ -94,7 +94,6 @@ for i = 1:N
         % Assign pathc match result to approximate nearest neighor matrix
         ANN{i, j} = patMat(i_A, L_A, n_A, f_A, i_B, L_B, n_B, f_B, radius); 
     end
-   
 end
 
 % show total time spent on running step 1 to 3
@@ -148,3 +147,5 @@ end
 final_result = mean(mean(n_correct(n_correct ~= Inf)));
 
 fprintf('Percentage correctness = %f\n', final_result*100)
+
+

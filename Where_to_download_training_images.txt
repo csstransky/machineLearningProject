@@ -1,0 +1,4 @@
+Download from:
+https://drive.google.com/drive/u/1/folders/1WMyffTQMcz8nFF5Qcbj5kDxF4nW1aQWp
+
+Use the cropped images that are 500x500, and make sure download both "image" and "gt".
